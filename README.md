@@ -6,8 +6,9 @@ Just a small sample project to integrate and play around with:
     * akka-http as HTTP-Server
 * [caliban](https://github.com/ghostdogpr/caliban)
     * [graphql](https://graphql.org/)
+* [ZIO](https://github.com/zio/zio)
 * [chimney](https://github.com/scalalandio/chimney)
-    * Type-safe date transformation
+    * Type-safe data transformation
 
 ### GraphQL Api Usage
 Increment / Decrement the counter:
