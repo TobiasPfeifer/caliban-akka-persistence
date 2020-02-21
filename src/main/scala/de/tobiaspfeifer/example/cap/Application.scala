@@ -27,14 +27,11 @@ object Application extends App {
     val port = 8080
 
     val counter = context.spawn(Counter("counter"), "counter")
-
-    val service: CounterService = defaultRuntime.unsafeRun(CounterService.make(counter, scheduler, timeout))
-
+    val service: CounterService = CounterService(counter)
     val graphQl = GraphQlApi(service)
+    val routes = HttpRoutes.counterRoutes(graphQl.interpreter)
 
-    val routes = HttpRoutes(context.system, graphQl.interpreter)
-
-    val serverBinding: Future[Http.ServerBinding] = Http()(untypedSystem).bindAndHandle(routes.counterRoutes(ec, defaultRuntime), "localhost", port)
+    val serverBinding: Future[Http.ServerBinding] = Http()(untypedSystem).bindAndHandle(routes, "localhost", port)
     serverBinding.onComplete {
       case Success(bound) =>
         println(s"Server online at http://${bound.localAddress.getHostString}:${bound.localAddress.getPort}/")
