@@ -27,8 +27,7 @@ object Application extends App {
     val port = 8080
 
     val counter = context.spawn(Counter("counter"), "counter")
-    val service: CounterService = CounterService(counter)
-    val graphQl = GraphQlApi(service)
+    val graphQl = GraphQlApi(counter)
     val routes = HttpRoutes.counterRoutes(graphQl.interpreter)
 
     val serverBinding: Future[Http.ServerBinding] = Http()(untypedSystem).bindAndHandle(routes, "localhost", port)
